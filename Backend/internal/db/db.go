@@ -33,5 +33,8 @@ func InitDB() {
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Product{})
 	DB.AutoMigrate(&models.Order{})
+	DB.AutoMigrate(&models.CartItem{})
 
 }
+
+
