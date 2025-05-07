@@ -36,9 +36,8 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}
-
 		c.Set("userID", token.Claims.(jwt.MapClaims)["user_id"])
-		// c.Set("userID", token.Claims.UserID)
+		c.Set("isAdmin", token.Claims.(jwt.MapClaims)["is_admin"])
 		c.Next()
 
 	}

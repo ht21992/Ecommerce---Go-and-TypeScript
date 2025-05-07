@@ -34,6 +34,7 @@ func Signup(c *gin.Context) {
 		Name:     body.Name,
 		Email:    body.Email,
 		Password: string(hash),
+		IsAdmin:  false,
 	}
 
 	if err := db.DB.Create(&user).Error; err != nil {
@@ -41,7 +42,7 @@ func Signup(c *gin.Context) {
 		return
 	}
 
-	token, _ := auth.GenerateJWT(user.ID)
+	token, _ := auth.GenerateJWT(user.ID, user.IsAdmin)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
@@ -70,7 +71,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, _ := auth.GenerateJWT(user.ID)
+	token, _ := auth.GenerateJWT(user.ID, user.IsAdmin)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 
 }

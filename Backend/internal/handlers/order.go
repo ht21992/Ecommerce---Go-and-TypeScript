@@ -32,3 +32,10 @@ func CreateOrder(c *gin.Context) {
 	// Respond back to client
 	c.JSON(http.StatusOK, order)
 }
+
+func GetMyOrders(c *gin.Context) {
+	userID := c.GetUint("userID")
+	var orders []models.Order
+	db.DB.Preload("Product").Where("user_id = ?", userID).Find(&orders)
+	c.JSON(http.StatusOK, orders)
+}

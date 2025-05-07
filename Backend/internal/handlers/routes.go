@@ -14,10 +14,12 @@ func SetupRoutes(r *gin.Engine) {
 
 		protected := api.Group("/")
 		protected.Use(middleware.AuthMiddleware())
+		admin := protected.Group("/admin", middleware.AdminOnly())
+
 		// User
 		protected.GET("/me", func(c *gin.Context) {
-			userID := c.MustGet("user")
-			c.JSON(200, gin.H{"user_id": userID})
+			userID := c.MustGet("userID")
+			c.JSON(200, gin.H{"userID": userID})
 		})
 
 		// Products
@@ -29,6 +31,7 @@ func SetupRoutes(r *gin.Engine) {
 
 		// Orders
 		protected.POST("/orders", CreateOrder)
+		protected.GET("/orders", GetMyOrders)
 
 		// Cart
 		protected.POST("/cart", AddToCart)
@@ -38,6 +41,9 @@ func SetupRoutes(r *gin.Engine) {
 
 		// Checkout
 		protected.POST("/checkout", Checkout)
+
+		// Admins
+		admin.PUT("/orders/:id/status", UpdateOrderStatus)
 
 	}
 }

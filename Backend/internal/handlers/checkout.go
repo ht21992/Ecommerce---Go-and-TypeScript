@@ -12,6 +12,15 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+
+/*
+
+
+POST /api/checkout
+
+
+*/
+
 func Checkout(c *gin.Context) {
 	userID := c.GetUint("userID")
 
